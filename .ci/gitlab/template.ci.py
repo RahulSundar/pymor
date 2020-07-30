@@ -332,8 +332,6 @@ docs build:
     script:
         - ${CI_PROJECT_DIR}/.ci/gitlab/test_docs.bash
     stage: build
-    # makes sure this doesn't land on the test runner
-    tags: [mike]
     artifacts:
         paths:
             - docs/_build/html
@@ -341,6 +339,8 @@ docs build:
 
 docs:
     extends: .test_base
+    # makes sure this doesn't land on the test runner
+    tags: [mike]
     image: alpine:3.11
     stage: deploy
     resource_group: docs_deploy
@@ -351,11 +351,10 @@ docs:
         - pip3 install jinja2 pathlib
     script:
         - ${CI_PROJECT_DIR}/.ci/gitlab/deploy_docs.bash
-    only: ['branches', 'tags']
+    only:
+        variables: [[ ! ${CI_COMMIT_REF_NAME} =~ "github" ]]
     except:
         - schedules
-        - /^staging/.*$/i
-        - /^github/PR_.*$/i
     environment:
         name: safe
 
