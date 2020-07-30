@@ -320,14 +320,16 @@ check_wheel {{loop.index}}:
 {% endfor %}
 
 docs build:
-    extends: .docker-in-docker
+    extends: .test_base
     except:
         - schedules
-    stage: build
+    services:
+        - name: pymor/pypi-mirror_stable_py3.7:{{pypi_mirror_tag}}
+          alias: pypi_mirror
+    image: pymor/jupyter_py3.7:{{ci_image_tag}}
     script:
-        - apk --update add make python3
-        - pip3 install jinja2 pathlib
-        - make USER=pymor docker_docs
+        - ${CI_PROJECT_DIR}/.ci/gitlab/test_docs.bash
+    stage: build
     artifacts:
         paths:
             - docs/_build/html
