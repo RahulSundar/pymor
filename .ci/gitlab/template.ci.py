@@ -351,10 +351,11 @@ docs:
         - pip3 install jinja2 pathlib
     script:
         - ${CI_PROJECT_DIR}/.ci/gitlab/deploy_docs.bash
-    only:
-        variables: [[ ! ${CI_COMMIT_REF_NAME} =~ "github" ]]
-    except:
-        - schedules
+    rules:
+        - if: '$CI_PIPELINE_SOURCE == "schedule"'
+          when: never
+        - if: '${CI_COMMIT_REF_NAME} =~ "github"'
+          when: never
     environment:
         name: safe
 
