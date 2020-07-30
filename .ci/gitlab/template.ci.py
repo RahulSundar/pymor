@@ -64,6 +64,7 @@ stages:
     rules:
         - if: '${CI_COMMIT_REF_NAME} =~ /^github/PR.*/'
           when: never
+        - when: on_success
     stage: deploy
     script: .ci/gitlab/submit.bash
 
