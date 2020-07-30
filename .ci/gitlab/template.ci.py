@@ -311,6 +311,8 @@ pypi deploy:
         name: pymor-wheels
     script:
         - ${CI_PROJECT_DIR}/.ci/gitlab/pypi_deploy.bash
+    environment:
+        name: safe
 
 {% for OS in testos %}
 check_wheel {{loop.index}}:
@@ -330,6 +332,8 @@ docs build:
     script:
         - ${CI_PROJECT_DIR}/.ci/gitlab/test_docs.bash
     stage: build
+    # makes sure this doesn't land on the test runner
+    tags: [mike]
     artifacts:
         paths:
             - docs/_build/html
