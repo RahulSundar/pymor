@@ -831,6 +831,7 @@ check_wheel 3:
 
 docs build:
     extends: .test_base
+    tags: [mike]
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule"'
           when: never

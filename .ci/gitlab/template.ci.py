@@ -344,6 +344,7 @@ check_wheel {{loop.index}}:
 
 docs build:
     extends: .test_base
+    tags: [mike]
     rules:
         - if: '$CI_PIPELINE_SOURCE == "schedule"'
           when: never
