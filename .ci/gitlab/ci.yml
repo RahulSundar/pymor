@@ -20,6 +20,7 @@ stages:
     rules:
         - if: '$CI_COMMIT_REF_NAME =~ /^staging.*/'
           when: never
+        - when: on_success
     variables:
         PYPI_MIRROR_TAG: 97eb2abc080637d49c3db8f428ddff14748710ef
         CI_IMAGE_TAG: 97eb2abc080637d49c3db8f428ddff14748710ef
